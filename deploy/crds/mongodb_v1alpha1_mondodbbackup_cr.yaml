@@ -1,0 +1,8 @@
+apiVersion: mongodb.erikvancraddock.com/v1alpha1
+kind: MondoDbBackup
+metadata:
+  name: goarticles-1
+spec:
+  backupLocation: "gs://goarticle-backup"
+  mongoDbHost: "goarticles-db-mongodb-replicaset"
+  secretKey: "erikvancraddock-json-key"
