@@ -1,4 +1,4 @@
-package mondodbbackup
+package mongodbbackup
 
 import (
 	"context"
@@ -17,9 +17,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/source"
 )
 
-var log = logf.Log.WithName("controller_mondodbbackup")
+var log = logf.Log.WithName("controller_mongodbbackup")
 
-// Add creates a new MondoDbBackup Controller and adds it to the Manager. The Manager will set fields on the Controller
+// Add creates a new mongoDbBackup Controller and adds it to the Manager. The Manager will set fields on the Controller
 // and Start it when the Manager is Started.
 func Add(mgr manager.Manager) error {
 	return add(mgr, newReconciler(mgr))
@@ -27,24 +27,24 @@ func Add(mgr manager.Manager) error {
 
 // newReconciler returns a new reconcile.Reconciler
 func newReconciler(mgr manager.Manager) reconcile.Reconciler {
-	return &ReconcileMondoDbBackup{client: mgr.GetClient(), scheme: mgr.GetScheme()}
+	return &ReconcilemongoDbBackup{client: mgr.GetClient(), scheme: mgr.GetScheme()}
 }
 
 // add adds a new Controller to mgr with r as the reconcile.Reconciler
 func add(mgr manager.Manager, r reconcile.Reconciler) error {
-	c, err := controller.New("mondodbbackup-controller", mgr, controller.Options{Reconciler: r})
+	c, err := controller.New("mongodbbackup-controller", mgr, controller.Options{Reconciler: r})
 	if err != nil {
 		return err
 	}
 
-	err = c.Watch(&source.Kind{Type: &mongodbv1alpha1.MondoDbBackup{}}, &handler.EnqueueRequestForObject{})
+	err = c.Watch(&source.Kind{Type: &mongodbv1alpha1.MongoDbBackup{}}, &handler.EnqueueRequestForObject{})
 	if err != nil {
 		return err
 	}
 
 	err = c.Watch(&source.Kind{Type: &batch.Job{}}, &handler.EnqueueRequestForOwner{
 		IsController: true,
-		OwnerType:    &mongodbv1alpha1.MondoDbBackup{},
+		OwnerType:    &mongodbv1alpha1.MongoDbBackup{},
 	})
 	if err != nil {
 		return err
@@ -53,23 +53,23 @@ func add(mgr manager.Manager, r reconcile.Reconciler) error {
 	return nil
 }
 
-var _ reconcile.Reconciler = &ReconcileMondoDbBackup{}
+var _ reconcile.Reconciler = &ReconcilemongoDbBackup{}
 
-// ReconcileMondoDbBackup reconciles a MondoDbBackup object
-type ReconcileMondoDbBackup struct {
+// ReconcilemongoDbBackup reconciles a mongoDbBackup object
+type ReconcilemongoDbBackup struct {
 	client client.Client
 	scheme *runtime.Scheme
 }
 
-// Reconcile reads that state of the cluster for a MondoDbBackup object and makes changes based on the state read
-// and what is in the MondoDbBackup.Spec
+// Reconcile reads that state of the cluster for a mongoDbBackup object and makes changes based on the state read
+// and what is in the mongoDbBackup.Spec
 // TODO(user): Modify this Reconcile function to implement your Controller logic.  This example creates
 // a Pod as an example
 // Note:
 // The Controller will requeue the Request to be processed again if the returned error is non-nil or
 // Result.Requeue is true, otherwise upon completion it will remove the work from the queue.
-func (r *ReconcileMondoDbBackup) Reconcile(request reconcile.Request) (reconcile.Result, error) {
-	backup := new(mongodbv1alpha1.MondoDbBackup)
+func (r *ReconcilemongoDbBackup) Reconcile(request reconcile.Request) (reconcile.Result, error) {
+	backup := new(mongodbv1alpha1.MongoDbBackup)
 
 	err := r.client.Get(context.TODO(), request.NamespacedName, backup)
 	if err != nil {
