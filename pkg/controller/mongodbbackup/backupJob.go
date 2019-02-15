@@ -47,7 +47,7 @@ func createBatchJob(backup *mongodbv1alpha1.MongoDbBackup) *batch.Job {
 					Containers: []corev1.Container{
 						{
 							Name:            "mongodump",
-							Image:           "evcraddock/mongodb-backup:1.0.1",
+							Image:           "evcraddock/mongodb-backup:latest",
 							ImagePullPolicy: corev1.PullIfNotPresent,
 							VolumeMounts: []corev1.VolumeMount{
 								{
@@ -65,12 +65,8 @@ func createBatchJob(backup *mongodbv1alpha1.MongoDbBackup) *batch.Job {
 									Value: "/secrets/gcp/key.json",
 								},
 								{
-									Name:  "MONGODB_HOST",
-									Value: backup.Spec.MongoDbHost,
-								},
-								{
-									Name:  "MONGODB_PORT",
-									Value: backup.Spec.MongoDbPort,
+									Name:  "MONGODB_URI",
+									Value: backup.Spec.MongoDbUri,
 								},
 							},
 						},

@@ -4,6 +4,5 @@ metadata:
   name: goarticles-4
 spec:
   backupLocation: "goarticle-backup"
-  mongoDbHost: "goarticles-db-mongodb-replicaset"
-  mongoDbPort: "27017"
+  mongoDbUri: "mongodb://goarticles-db-mongodb-replicaset:27017"
   secretKey: "erikvancraddock-json-key"

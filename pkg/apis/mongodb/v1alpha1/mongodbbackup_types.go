@@ -9,8 +9,7 @@ import (
 
 type MongoDbBackupSpec struct {
 	BackupLocation string `json:"backupLocation"`
-	MongoDbHost    string `json:"mongoDbHost"`
-	MongoDbPort    string `json:"mongoDbPort"`
+	MongoDbUri 	   string `json:"mongoDbUri"`
 	SecretKey      string `json:"secretKey"`
 }
 
