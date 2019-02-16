@@ -14,6 +14,7 @@ rules:
   - events
   - configmaps
   - secrets
+  - jobs
   verbs:
   - '*'
 - apiGroups:
@@ -42,5 +43,11 @@ rules:
   - mongodb.erikvancraddock.com
   resources:
   - '*'
+  - jobs
+  - deployments
+  - replicasets
+  - daemonsets
+  - statefulsets
+  - mongodbbackups
   verbs:
   - '*'

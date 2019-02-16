@@ -1,0 +1,8 @@
+apiVersion: mongodb.erikvancraddock.com/v1alpha1
+kind: MongoDbBackup
+metadata:
+  name: goarticles-5
+spec:
+  backupLocation: "goarticle-backup"
+  mongoDbUri: "mongodb://goarticles-db-mongodb-replicaset:27017"
+  secretKey: "erikvancraddock-json-key"

@@ -1,4 +1,4 @@
-package mondodbbackup
+package mongodbbackup
 
 import (
 	mongodbv1alpha1 "github.com/evcraddock/mongodb-operator/pkg/apis/mongodb/v1alpha1"
@@ -13,7 +13,7 @@ type BackupJob struct {
 }
 
 // NewBackupJob new backup job
-func NewBackupJob(backup *mongodbv1alpha1.MondoDbBackup) BackupJob {
+func NewBackupJob(backup *mongodbv1alpha1.MongoDbBackup) BackupJob {
 	job := createBatchJob(backup)
 	return BackupJob{
 		job,
@@ -31,7 +31,7 @@ func (j *BackupJob) IsCompleted(job *batch.Job) bool {
 	return false
 }
 
-func createBatchJob(backup *mongodbv1alpha1.MondoDbBackup) *batch.Job {
+func createBatchJob(backup *mongodbv1alpha1.MongoDbBackup) *batch.Job {
 	return &batch.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      backup.Name + "-mongodb-backup",
@@ -47,7 +47,7 @@ func createBatchJob(backup *mongodbv1alpha1.MondoDbBackup) *batch.Job {
 					Containers: []corev1.Container{
 						{
 							Name:            "mongodump",
-							Image:           "zoov/mongodb-gcs-backup:latest",
+							Image:           "evcraddock/mongodb-backup:latest",
 							ImagePullPolicy: corev1.PullIfNotPresent,
 							VolumeMounts: []corev1.VolumeMount{
 								{
@@ -57,16 +57,16 @@ func createBatchJob(backup *mongodbv1alpha1.MondoDbBackup) *batch.Job {
 							},
 							Env: []corev1.EnvVar{
 								{
-									Name:  "GCS_BUCKET",
+									Name:  "BUCKET_PATH",
 									Value: backup.Spec.BackupLocation,
 								},
 								{
-									Name:  "GCS_KEY_FILE_PATH",
+									Name:  "GCS_KEY",
 									Value: "/secrets/gcp/key.json",
 								},
 								{
-									Name:  "MONGODB_HOST",
-									Value: backup.Spec.MongoDbHost,
+									Name:  "MONGODB_URI",
+									Value: backup.Spec.MongoDbUri,
 								},
 							},
 						},
