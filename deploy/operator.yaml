@@ -15,8 +15,7 @@ spec:
       serviceAccountName: mongodb-operator
       containers:
         - name: mongodb-operator
-          # Replace this with the built image name
-          image: REPLACE_IMAGE
+          image: evcraddock/mongodb-operator:0.0.1
           command:
           - mongodb-operator
           imagePullPolicy: Always
