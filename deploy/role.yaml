@@ -51,3 +51,9 @@ rules:
   - mongodbbackups
   verbs:
   - '*'
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  verbs:
+  - "*"
